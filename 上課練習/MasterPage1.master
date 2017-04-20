@@ -1,0 +1,103 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage1.master.cs" Inherits="MasterPage2" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-color:lightyellow;">
+    
+    <div class="container">
+        <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active">
+            <asp:HyperLink ID="HyperLink2" runat="server" >首頁</asp:HyperLink>
+        </li>
+        <li class="active">
+            <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/ProductList.aspx">產品列表</asp:HyperLink>
+        </li>
+        
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <asp:HyperLink ID="lkLogin" runat="server" NavigateUrl="'~/Login.aspx">登入</asp:HyperLink>
+        </li>
+        <li>
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Cart.aspx">購物車</asp:HyperLink>
+            </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+    <h3 class="panel-title">
+        <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+        <div class="col-md-4">
+            <h3>涉過期魚貨改標案「台灣食神」梁幼祥起訴</h3>
+            <p>祥而盛企業公司負責人陳幼祥，遭檢舉以低價進口過期魚貨，再委託有「台灣食神」封號的美食家梁幼祥，以其祥鼎康公司代張貼有效期限，祥而盛再將產品出貨給君悅飯店等下游業者，不法獲利逾455萬元；台北地檢署調查今依詐欺、偽造文書等罪起訴陳、梁；檢方考量陳坦承犯行，犯後態度良好，建請法院從輕量刑，梁則矢口否認犯罪，檢方請求法院若梁在審理時認罪，給予酌情量刑。</p>
+            <a class="btn btn-success" href="http://news.ltn.com.tw/news/society/breakingnews/2033611"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> 詳細資料</a>
+        </div>
+        <div class="col-md-4">
+            <h3>3台男在日盜領9億　1人認罪稱：受僱台灣組織赴日領錢</h3>
+            <p>32歲的蔡姓台灣男子及另外2男因涉嫌持偽造的銀聯卡在日本盜領9億台幣遭逮，雖然蔡及另外1人否認犯罪，不過，其中1男已經坦承並表示，自己是受僱於「台灣組織」並專程前往日本提取現金，在被抓到之前曾在其他銀行做過一樣的事。</p>
+            <a class="btn btn-success" href="http://www.ettoday.net/news/20170412/902561.htm"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> 詳細資料</a>
+        </div>
+        <div class="col-md-4">
+            <h3>川習再通話　談北韓敘利亞　同意密切聯繫</h3>
+            <p>鳳凰網今天報導，中國國家主席習近平與美國總統川普，今天上午通電話，談及北韓與敘利亞問題，習近平強調，中方堅持實現半島無核化目標，堅持維護半島和平穩定，主張通過和平方式解決問題，願同美方就半島問題保持溝通協調。關於敘利亞問題，習近平指出，任何使用化學武器的行為都不可接受。敘利亞問題要堅持政治解決的方向，聯合國安理會保持團結對解決敘利亞問題非常重要，希望安理會發出一致聲音。雙方並同意透過各種方式保持密切聯繫。</p>
+            <a class="btn btn-success" href="http://www.appledaily.com.tw/realtimenews/article/new/20170412/1096214/"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span> 詳細資料</a>
+        </div>
+
+    </div>
+
+    </div>
+    
+
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+        <asp:ContentPlaceHolder id="footer" runat="server">
+        
+        </asp:ContentPlaceHolder>
+</body>
+</html>

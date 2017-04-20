@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="background-color:silver"> 
+        <h2>From Master Page</h2>
+          <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">        
+        </asp:ContentPlaceHolder>
+     
+        <hr />
+    </div>
+    </form>
+
+        <asp:ContentPlaceHolder id="footer" runat="server">
+        
+        </asp:ContentPlaceHolder>
+</body>
+</html>

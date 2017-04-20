@@ -1,0 +1,109 @@
+﻿CREATE PROCEDURE [dbo].[ShoppingCartAddItem]
+	@CartID nvarchar(50),
+	@ProductID int,
+	@Quantity int
+AS
+    declare @CountItems int
+	select @CountItems=count(ProductID) from ShoppingCart where CartID=@CartID and ProductID=@ProductID
+	--先判斷產品是否已經購買過
+	if @CountItems > 0
+	   --是 > 數量加1
+	   Update ShoppingCart set Quantity = ShoppingCart.Quantity + 1 where CartID=@CartID and ProductID=@ProductID
+    else
+	   --否 > 新增此產品
+	   Insert into ShoppingCart(CartID,Quantity,ProductID)values(@CartID,@Quantity,@ProductID)
+
+
+
+
+CREATE PROCEDURE [dbo].[ShoppingCartList]
+	@CartID nvarchar(50)
+AS
+	SELECT          ShoppingCart.ProductID, Products.ModelName, Products.ModelNumber, ShoppingCart.Quantity, Products.UnitCost, 
+                            Products.ProductImage, Products.UnitCost * ShoppingCart.Quantity AS amount
+FROM              ShoppingCart INNER JOIN
+                            Products ON ShoppingCart.ProductID = Products.ProductID
+WHERE          (ShoppingCart.CartID = @CartID)
+
+
+
+
+
+CREATE PROCEDURE [dbo].[ShoppingCartTotal]
+	@CartID nvarchar(50), --Input
+	@TotalCost money output  --Output
+AS
+	SELECT @TotalCost = sum(ShoppingCart.Quantity * Products.UnitCost)
+	From ShoppingCart Inner Join Products on ShoppingCart.ProductID = Products.ProductID
+	Where ShoppingCart.CartID = @CartID
+
+
+CREATE PROCEDURE [dbo].[ShoppingCartUpdate]
+	@CartID nvarchar(50),
+	@ProductID int,
+	@Quantity int,
+	@isDelete bit
+AS
+	if @isDelete = 1
+	--刪除
+	Delete ShoppingCart Where CartID=@CartID and ProductID=@ProductID
+	else
+	--更新
+	Update ShoppingCart set Quantity=@Quantity  Where CartID=@CartID and ProductID=@ProductID
+
+
+
+CREATE PROCEDURE [dbo].[ShoppingCartIDUpdate]
+	@EmailAddress nvarchar(50),
+	@Password nvarchar(50),
+	@CartID nvarchar(50),
+	@FullName nvarchar(50) = null output,
+	@CustomerID int output
+
+AS
+	declare @countItem int
+	select @countItem = count("CustomerID") from Customers where EmailAddress=@EmailAddress and Password=@Password
+
+	if @countItem > 0
+	 Begin
+	 --讀出客戶的FullName,CustomerID
+	  select @FullName=FullName, @CustomerID=CustomerID from Customers where EmailAddress=@EmailAddress and Password=@Password
+	  --更新CartID為CustomerID
+	  Update ShoppingCart set CartID=@CustomerID Where CartID=@CartID
+	End
+
+
+
+
+CREATE PROCEDURE [dbo].[ShoppingCartEmpty]
+	@CartID nvarchar(50)
+AS
+	Delete ShoppingCart Where CartID=@CartID
+
+
+
+CREATE PROCEDURE [dbo].[OrderCreate]
+	@CustomerID int,
+	@CartID nvarchar(50),
+	@OrderDate datetime,
+	@ShipDate datetime,
+	@OrderID int output
+AS
+--1.將shoppingcart 的資料轉到order orderdetails資料表
+--2.將shoppingcart的資料清除
+--3.告知使用者訂單編號，轉到訂單頁面
+	Begin Tran OrderCreate
+	--shoppingcart -> order
+	Insert into Orders(CustomerID,OrderDate,ShipDate)values(@CustomerID,@OrderDate,@ShipDate)
+	select @OrderID = @@IDENTITY --取得最後一筆新增資料的主索引鍵
+
+	--shoppingcart -> orderdetails
+	Insert into OrderDetails(OrderID,ProductID,Quantity,UnitCost)
+	Select @OrderID,ShoppingCart.ProductID,ShoppingCart.Quantity,Products.UnitCost
+	From ShoppingCart inner join Products on ShoppingCart.ProductID = Products.ProductID
+	Where CartID=@CartID
+
+	--刪除shoppingCart資料
+	exec ShoppingCartEmpty @CartID
+Commit Tran OrderCreate
+
